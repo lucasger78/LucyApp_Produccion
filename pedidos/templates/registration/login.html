@@ -1,0 +1,137 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% load static %}
+
+{% comment %} {% block title %}Acceso - LucyApp{% endblock %} {% endcomment %}
+
+{% block extra_css %}
+<style>
+    body{
+        font-family: Arial, sans-serif;
+    }
+    :root {
+        --primary-color: #c21f50ff;
+        --hover-color: #c21f50ff;
+    }
+    
+    .login-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f8fafc;
+    }
+    
+    .login-form-container {
+        width: 100%;
+        max-width: 28rem;
+        margin: auto;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .login-logo {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .login-logo img {
+        height: 4rem;
+    }
+    
+    .login-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1e293b;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(235, 34, 34, 0.38);
+    }
+    
+    .btn-login {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .btn-login:hover {
+        background-color: var(--hover-color);
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #64748b;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-form-container">
+        <div class="login-logo">
+            <img src="{% static 'pedidos/img/logo.png' %}" alt="LucyApp">
+        </div>
+        
+        <h1 class="login-title">Ingreso al Sistema</h1>
+        
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            Usuario o contraseña incorrectos
+        </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <input type="text" 
+                       class="form-control" 
+                       name="username" 
+                       placeholder="Usuario"
+                       required
+                       autofocus>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" 
+                       class="form-control" 
+                       name="password" 
+                       placeholder="Contraseña"
+                       required>
+            </div>
+            
+            <input type="hidden" name="next" value="{{ next|default:'/pedidos/catalogo/' }}">
+            
+            <button type="submit" class="btn-login">Ingresar</button>
+            
+            <div class="login-footer">
+                <p>Sistema de pedidos LucyApp</p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

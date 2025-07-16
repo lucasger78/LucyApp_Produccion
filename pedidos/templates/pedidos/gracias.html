@@ -1,0 +1,12 @@
+<!-- pedidos/templates/pedidos/gracias.html -->
+{% extends 'base.html' %}
+
+{% block title %}¡Gracias!{% endblock %}
+
+{% block content %}
+    <div class="thank-you-container">
+        <h2>¡Pedido registrado con éxito!</h2>
+        <p>Gracias por tu compra. Hemos recibido tu pedido correctamente.</p>
+        <a href="{% url 'catalogo' %}" class="btn-back">Volver al catálogo</a>
+    </div>
+{% endblock %} 

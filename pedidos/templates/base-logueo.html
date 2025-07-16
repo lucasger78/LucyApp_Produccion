@@ -1,0 +1,40 @@
+<!-- pedidos/templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Pedidos{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'pedidos/img/favicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="logo-header">
+            <img src="{% static 'pedidos/img/logo.png' %}" alt="Logo LucyApp" class="logo-img">
+            <h1>LucyApp</h1>
+        </div>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'catalogo' %}">Catálogo</a>
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Sistema de Pedidos &copy; {% now "Y" %}</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

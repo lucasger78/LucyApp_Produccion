@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pedido #{{ pedido.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .totales { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>LucyApp - Pedido #{{ pedido.id }}</h1>
+    <h2>Datos del Cliente</h2>
+    <p><strong>Nombre</strong>: {{ pedido.cliente.nombre_completo }}</p>
+    <p><strong>Email</strong>: {{ pedido.cliente.email }}</p>
+    <p><strong>Teléfono</strong>: {{ pedido.cliente.telefono }}</p>
+
+    <h2>Productos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.producto.nombre }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>${{ item.producto.precio }}</td>
+                <td>${{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totales">
+        <p><strong>Total</strong>: ${{ pedido.total }}</p>
+        <p><strong>Seña</strong>: ${{ pedido.senia }}</p>
+        <p><strong>Total a Pagar</strong>: ${{ pedido.total_final }}</p>
+    </div>
+</body>
+</html>

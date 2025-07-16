@@ -1,0 +1,33 @@
+/* Botón principal en todo el admin */
+.btn-primary {
+    background-color: #ee1e4b !important;
+    border-color: #ee1e4b !important;
+}
+
+.btn-primary:hover {
+    background-color: #c4183d !important;
+    border-color: #c4183d !important;
+}
+
+/* Logo del login más chico (fallback) */
+.login-logo img {
+    height: 180px !important;  /* Aumenté el tamaño para login */
+    width: auto !important;
+    margin-bottom: 20px;
+}
+
+/* Avatar de usuario personalizado */
+.main-header .user-image {
+    background-image: url('/static/pedidos/img/logo-white.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50% !important;
+}
+
+/* Eliminar la imagen por defecto */
+.main-header .user-image img {
+    display: none !important;
+}

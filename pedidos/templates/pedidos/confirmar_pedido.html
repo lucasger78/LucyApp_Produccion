@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="confirmacion-pedido">
+    <h2>Confirma tu Pedido #{{ pedido.id }}</h2>
+    
+    <div class="datos-cliente">
+        <h3>Datos del Cliente</h3>
+        <p><strong>Nombre:</strong> {{ pedido.cliente.nombre_completo }}</p>
+        <p><strong>Email:</strong> {{ pedido.cliente.email }}</p>
+        <p><strong>Teléfono:</strong> {{ pedido.cliente.telefono }}</p>
+    </div>
+    
+    <div class="items-pedido">
+        <h3>Productos</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.producto.nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>${{ item.producto.precio }}</td>
+                    <td>${{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="totales">
+            <p><strong>Total:</strong> ${{ pedido.total }}</p>
+            <p><strong>Seña:</strong> ${{ pedido.senia }}</p>
+            <p><strong>Total a Pagar:</strong> ${{ pedido.total_final }}</p>
+        </div>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="botones">
+            <button type="submit" class="btn-confirmar">Confirmar Pedido</button>
+            <a href="{% url 'formulario_cliente' %}" class="btn-editar">Editar Datos</a>
+        </div>
+    </form>
+</div>
+
+
+<style>
+    .tabla-items {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    .tabla-items th, .tabla-items td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .totales {
+        margin: 20px 0;
+        font-size: 1.1em;
+    }
+    .botones {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}

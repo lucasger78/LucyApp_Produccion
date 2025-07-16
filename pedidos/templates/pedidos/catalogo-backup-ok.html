@@ -1,0 +1,150 @@
+<!-- pedidos/templates/pedidos/catalogo.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Catálogo de Productos{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/carrito.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>Crear Pedido Nuevo</h2>
+    
+    <div id="productos">
+        {% for producto in productos %}
+        <div class="producto" data-id="{{ producto.id }}" data-precio="{{ producto.precio }}">
+            <h3>{{ producto.nombre }}</h3>
+            <p>Precio: ${{ producto.precio }}</p>
+            <button onclick="agregarProducto({{ producto.id }})">+</button>
+            <span id="cantidad-{{ producto.id }}">0</span>
+            <button onclick="quitarProducto({{ producto.id }})">-</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="resumen">
+        <h3>Resumen del Pedido</h3>
+        <div id="items-carrito"></div>
+        <p>Total: $<span id="total">0.00</span></p>
+    </div>
+
+    <form method="POST" action="{% url 'formulario_cliente' %}" id="form-continuar">
+        {% csrf_token %}
+        <input type="hidden" name="carrito" id="carrito-data">
+        <button type="submit" id="btn-continuar" disabled>Continuar</button>
+    </form>
+
+    <script>
+    let carrito = {};
+
+    // Función mejorada para guardar el carrito
+    async function guardarCarrito() {
+        const productos = [];
+        let total = 0;
+
+        // Preparar datos para enviar
+        for (const [id, cantidad] of Object.entries(carrito)) {
+            const productoEl = document.querySelector(`.producto[data-id="${id}"]`);
+            if (productoEl && cantidad > 0) {
+                const precio = parseFloat(productoEl.dataset.precio);
+                productos.push({
+                    id: parseInt(id),
+                    cantidad: parseInt(cantidad),
+                    precio: precio,
+                    subtotal: precio * cantidad
+                });
+                total += precio * cantidad;
+            }
+        }
+
+        try {
+            const response = await fetch("{% url 'guardar_carrito' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    productos: productos,
+                    total: total.toFixed(2)
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en el servidor');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+            return { success: false };
+        }
+    }
+
+    // Función para actualizar la vista
+    function actualizarVista() {
+        let html = '';
+        let total = 0;
+
+        for (const [id, cantidad] of Object.entries(carrito)) {
+            const productoEl = document.querySelector(`.producto[data-id="${id}"]`);
+            if (productoEl && cantidad > 0) {
+                const precio = parseFloat(productoEl.dataset.precio);
+                const subtotal = precio * cantidad;
+                total += subtotal;
+
+                html += `<div>${productoEl.querySelector('h3').textContent} - ${cantidad} x $${precio.toFixed(2)} = $${subtotal.toFixed(2)}</div>`;
+                document.getElementById(`cantidad-${id}`).textContent = cantidad;
+            }
+        }
+
+        document.getElementById('items-carrito').innerHTML = html;
+        document.getElementById('total').textContent = total.toFixed(2);
+        document.getElementById('btn-continuar').disabled = Object.keys(carrito).length === 0;
+    }
+
+    // Funciones para manejar productos
+    function agregarProducto(id) {
+        carrito[id] = (carrito[id] || 0) + 1;
+        actualizarVista();
+    }
+
+    function quitarProducto(id) {
+        if (carrito[id] && carrito[id] > 0) {
+            carrito[id]--;
+            if (carrito[id] <= 0) {
+                delete carrito[id];
+                document.getElementById(`cantidad-${id}`).textContent = "0";
+            }
+            actualizarVista();
+        }
+    }
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configurar formulario
+        document.getElementById('form-continuar').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (Object.keys(carrito).length === 0) {
+                alert('Agrega productos al carrito');
+                return;
+            }
+
+            const resultado = await guardarCarrito();
+            if (resultado.success) {
+                window.location.href = "{% url 'formulario_cliente' %}";
+            } else {
+                alert('Error al guardar el carrito');
+            }
+        });
+
+        // Cargar carrito si existe
+        const carritoGuardado = sessionStorage.getItem('carrito');
+        if (carritoGuardado) {
+            carrito = JSON.parse(carritoGuardado);
+            actualizarVista();
+        }
+    });
+</script>
+{% endblock %}

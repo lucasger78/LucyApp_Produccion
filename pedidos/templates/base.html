@@ -1,0 +1,38 @@
+<!-- pedidos/templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap" rel="stylesheet">
+    <title>{% block title %}LucyApp Pedidos{% endblock %}</title>    
+    <link rel="shortcut icon" href="{% static 'pedidos/img/favicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="logo-header">
+            <img src="{% static 'pedidos/img/logo.png' %}" alt="Logo LucyApp" class="logo-img">
+            <h1>LucyApp</h1>
+        </div>
+        <nav>
+            {% comment %} <a href="{% url 'catalogo' %}">Catálogo</a> {% endcomment %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% comment %} <footer>
+        <p>Sistema de Pedidos &copy; {% now "Y" %}</p>
+    </footer> {% endcomment %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,10 @@
+<!-- pedidos/templates/admin/base_site.html -->
+{% extends "admin/base.html" %}
+
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'pedidos/img/favicon.png' %}" />
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">Administración de Lucy</a></h1>
+{% endblock %}

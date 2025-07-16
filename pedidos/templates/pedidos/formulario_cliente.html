@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+     <a class="btn-submit" href="{% url 'catalogo' %}">Catálogo</a>
+    <h2>Completar Datos del Pedido</h2>
+    
+    <div class="resumen-rapido">
+        <p>Total del pedido: <strong>${{ total|default:"0.00" }}</strong></p>
+    </div>
+    
+    <form method="POST" id="pedido-form">
+        {% csrf_token %}
+        
+        <h3>Datos del Cliente</h3>
+        <div class="form-group">
+            {{ form.nombre_completo.label_tag }}
+            {{ form.nombre_completo }}
+            {% if form.nombre_completo.errors %}
+                <div class="error">{{ form.nombre_completo.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+            {% if form.telefono.errors %}
+                <div class="error">{{ form.telefono.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.direccion.label_tag }}
+            {{ form.direccion }}
+            {% if form.direccion.errors %}
+                <div class="error">{{ form.direccion.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <h3>Información del Pedido</h3>
+        <div class="form-group">
+            {{ form.empleado.label_tag }}
+            {{ form.empleado }}
+            {% if form.empleado.errors %}
+                <div class="error">{{ form.empleado.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.senia.label_tag }}
+            {{ form.senia }}
+            {% if form.senia.errors %}
+                <div class="error">{{ form.senia.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn-submit">Continuar al Resumen</button>
+    </form>
+</div>
+
+<style>
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .resumen-rapido {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    .form-group input, 
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .btn-submit {
+        background-color: #ee1e4b;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .btn-submit:hover {
+        background-color: #943d50;
+    }
+    
+    .error {
+        color: #dc3545;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Completar Datos del Cliente</h2>
+    
+    <!-- Muestra el total del pedido -->
+    <div class="resumen-rapido">
+        <p>Total del pedido: <strong>${{ total|default:"0.00" }}</strong></p>
+    </div>
+    
+    <!-- Formulario Django simplificado -->
+    <form method="POST" id="pedido-form">
+        {% csrf_token %}
+        
+        <!-- Campos del formulario -->
+        <div class="form-group">
+            {{ form.nombre_completo.label_tag }}
+            {{ form.nombre_completo }}
+            {% if form.nombre_completo.errors %}
+                <div class="error">{{ form.nombre_completo.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+            {% if form.telefono.errors %}
+                <div class="error">{{ form.telefono.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.direccion.label_tag }}
+            {{ form.direccion }}
+            {% if form.direccion.errors %}
+                <div class="error">{{ form.direccion.errors }}</div>
+            {% endif %}
+        </div> 
+        
+        <div class="form-group">
+            {{ form.senia.label_tag }}
+            {{ form.senia }}
+            {% if form.senia.errors %}
+                <div class="error">{{ form.senia.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn-submit">Continuar al Resumen</button>
+    </form>
+</div>
+{% endblock %} {% endcomment %}
+
+{% comment %}<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    // Obtener el total de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const totalFromURL = parseFloat(urlParams.get('total')) || 0;
+    
+    // Mostrar el total inicial
+    document.getElementById('total-pedido').textContent = `$${totalFromURL.toFixed(2)}`;
+    document.getElementById('total-input').value = totalFromURL.toFixed(2);
+    
+    // 1. Recuperar carrito de compras
+    const carrito = JSON.parse(sessionStorage.getItem('carrito') || '{}');
+    
+    // 2. Verificar que el carrito no esté vacío
+    if (Object.keys(carrito).length === 0) {
+        alert('🛒 El carrito está vacío. Serás redirigido al catálogo.');
+        window.location.href = "{% url 'catalogo' %}";
+        return;
+    }
+    
+    // 3. Configurar el formulario
+    const configurarFormulario = async () => {
+        // Calcular total (puedes mantener tu lógica actual aquí)
+        const totalReal = await calcularTotal(); // Usa tu función existente
+        
+        document.getElementById('carrito-data').value = JSON.stringify(carrito);
+        
+        document.getElementById('pedido-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevenir envío normal
+            
+            // Validar campos obligatorios
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            
+            if (!nombre || !email || !telefono) {
+                alert('⚠️ Por favor complete todos los campos obligatorios');
+                return;
+            }
+            
+            // Procesar la seña
+            const senia = parseFloat(document.getElementById('senia').value) || 0;
+            const totalFinal = totalReal - senia;
+            
+            if (senia > totalReal) {
+                alert('❌ La seña no puede ser mayor al total del pedido');
+                return;
+            }
+            
+            // Guardar datos en sessionStorage para la siguiente vista
+            sessionStorage.setItem('datos_cliente', JSON.stringify({
+                nombre,
+                email,
+                telefono,
+                senia,
+                total: totalReal,
+                totalFinal
+            }));
+            
+            // Redirigir a la vista de verificación
+            window.location.href = "{% url 'verificar_pedido' %}";
+        });
+    };
+    
+    configurarFormulario();
+}); 
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('pedido-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Validación básica
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            
+            if (!nombre || !email || !telefono) {
+                e.preventDefault();
+                alert('Complete todos los campos obligatorios');
+                return false;
+            }
+            
+            // Validación de seña
+            const total = parseFloat(document.getElementById('total-input').value);
+            const senia = parseFloat(document.getElementById('senia').value) || 0;
+            
+            if (senia > total) {
+                e.preventDefault();
+                alert('La seña no puede ser mayor al total');
+                return false;
+            }
+            
+            // Si todo está bien, el formulario se enviará normalmente
+            return true;
+        });
+    }
+});
+
+
+
+</script>
+{% endblock %}{% endcomment %}
