@@ -184,6 +184,11 @@ JAZZMIN_SETTINGS = {
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'pedidos/static')]
 
+# Configuración para producción
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 
 

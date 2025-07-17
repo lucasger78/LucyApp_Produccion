@@ -21,7 +21,8 @@
     <div id="productos">
         {% for producto in productos %}
         <div class="producto" data-imagen="{% if producto.imagen %}{{ producto.imagen.url|default:'/media/default.jpg' }}{% else %}/media/default.jpg{% endif %}" data-id="{{ producto.id }}" data-precio="{{ producto.precio }}" data-categoria="{{ producto.categoria|lower }}">
-        <img src="{% if producto.imagen %}{{ producto.imagen.url|default:'/media/default.jpg' }}{% else %}/media/default.jpg{% endif %}" alt="{{ producto.nombre|default:'Producto sin nombre' }}" style="max-width: 200px; height: auto;">
+        {% comment %} <img src="{% if producto.imagen %}{{ producto.imagen.url|default:'/media/default.jpg' }}{% else %}/media/default.jpg{% endif %}" alt="{{ producto.nombre|default:'Producto sin nombre' }}" style="max-width: 200px; height: auto;"> {% endcomment %}
+        {% comment %} <img src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/default.jpg' %}{% endif %}" alt="{{ producto.nombre }}"> {% endcomment %}
             <h3>{{ producto.nombre }}</h3>
             <p>Precio: ${{ producto.precio }}</p>
             <p class="categoria">Categoría: {{ producto.categoria }}</p>
