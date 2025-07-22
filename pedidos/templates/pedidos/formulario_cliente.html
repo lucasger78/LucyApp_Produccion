@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="form-container">
-     <a class="btn-submit" href="{% url 'catalogo' %}">Catálogo</a>
+     {% comment %} <a class="btn-submit" href="{% url 'catalogo' %}">Catálogo</a> {% endcomment %}
     <h2>Completar Datos del Pedido</h2>
     
     <div class="resumen-rapido">
@@ -56,10 +56,10 @@
         </div>
         
         <div class="form-group">
-            {{ form.senia.label_tag }}
-            {{ form.senia }}
-            {% if form.senia.errors %}
-                <div class="error">{{ form.senia.errors }}</div>
+            {{ form.seña.label_tag }}
+            {{ form.seña }}
+            {% if form.seña.errors %}
+                <div class="error">{{ form.seña.errors }}</div>
             {% endif %}
         </div>
         

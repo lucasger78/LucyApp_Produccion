@@ -41,7 +41,7 @@ class Pedido(models.Model):
     
     def save(self, *args, **kwargs):
         """Calcula automáticamente el total_final antes de guardar"""
-        self.total_final = max(Decimal('0'), self.total - self.senia)  # Evita valores negativos
+        self.total_final = max(Decimal('0'), self.total - self.seña)  # Evita valores negativos
         super().save(*args, **kwargs)
     
     def __str__(self):

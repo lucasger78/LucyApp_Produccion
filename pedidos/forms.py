@@ -3,7 +3,7 @@ from .models import Cliente
 from .models import Empleado
 
 class ClienteForm(forms.ModelForm):   
-    senia = forms.DecimalField(
+    seña = forms.DecimalField(
         label="Seña ($)",
         required=False,
         initial=0,
@@ -18,7 +18,7 @@ class ClienteForm(forms.ModelForm):
     
     class Meta:
         model = Cliente
-        fields = ['nombre_completo', 'email', 'telefono', 'direccion','senia']
+        fields = ['nombre_completo', 'email', 'telefono', 'direccion','seña']
         widgets = {
             'nombre_completo': forms.TextInput(attrs={'required': True}),
             'email': forms.EmailInput(attrs={'required': True}),
