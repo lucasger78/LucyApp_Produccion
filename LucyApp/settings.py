@@ -88,13 +88,21 @@ WSGI_APPLICATION = 'LucyApp.wsgi.application'
 
 
 DATABASES = {
-    'default': {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': config('DB_NAME'),
+    #     'USER': config('DB_USER'),
+    #     'PASSWORD': config('DB_PASSWORD'),
+    #     'HOST': config('DB_HOST'),
+    #     'PORT': config('DB_PORT'),
+    # }
+ 'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+        'NAME': os.getenv('DB_NAME', 'postgres'),
+        'USER': os.getenv('DB_USER', 'postgres.abxhillqvpwhmizhxiiad'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'LucyAppa'),
+        'HOST': os.getenv('DB_HOST', 'aws-0-sa-east-1.pooler.supabase.com'),
+        'PORT': os.getenv('DB_PORT', '6543'),
     }
 }
 
